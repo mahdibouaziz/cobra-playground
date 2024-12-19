@@ -8,7 +8,7 @@ import (
 )
 
 var generateCmd = &cobra.Command{
-	Use:   "generate",
+	Use:   "generate-pass",
 	Short: "Random password generator",
 	Long: `Random password generator built with Go
 in order to learn how to use cobra`,

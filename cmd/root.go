@@ -9,8 +9,8 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use:   "cobra-playground",
-	Short: "Cobra Playground learning",
-	Long: `A repository to practice cobra and know how to deal with it
+	Short: "Cobra CLI Playground ",
+	Long: `A CLI practice cobra and know how to deal with it
 Cobra is really an amazing CLI tool`,
 	// Run: func(cmd *cobra.Command, args []string) {
 	// 	// Do stuff here
