@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/mahdibouaziz/cobra-playground/cmd/get"
 	"github.com/spf13/cobra"
 )
 
@@ -31,4 +32,8 @@ func init() {
 	generateCmd.Flags().IntP("length", "l", 8, "length of the password")
 	generateCmd.Flags().BoolP("digits", "d", false, "include digits in the generated password")
 	generateCmd.Flags().BoolP("special-chars", "s", false, "include special characters in the generated password")
+
+	rootCmd.AddCommand(get.GetCommand)
+	get.GetCommand.PersistentFlags().IntP("limit", "l", 10, "Users limits")
+
 }
