@@ -35,6 +35,6 @@ func init() {
 
 	rootCmd.AddCommand(get.GetCommand)
 	get.GetCommand.PersistentFlags().IntP("limit", "l", 10, "Users limits")
-	get.GetCommand.PersistentFlags().IntSliceP("between","b",nil,"Get users between 2 values")
-	get.GetCommand.MarkFlagsMutuallyExclusive("limit","between")
+	get.GetCommand.PersistentFlags().IntSliceP("between", "b", nil, "Get users between 2 values")
+	get.GetCommand.MarkFlagsMutuallyExclusive("limit", "between")
 }

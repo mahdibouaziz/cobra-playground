@@ -52,7 +52,7 @@ func getUsers(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	if len(between)!=0 && len(between)!=2{
+	if len(between) != 0 && len(between) != 2 {
 		fmt.Printf("between flag accepts exactly 2 parameters")
 		return
 	}
@@ -79,9 +79,9 @@ func getUsers(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	if len(between)!=0 {
+	if len(between) != 0 {
 		printTable(apiResponse.Users[between[0]:between[1]])
-	}else{
+	} else {
 		printTable(apiResponse.Users[:limit])
 	}
 }
