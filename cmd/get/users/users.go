@@ -38,10 +38,22 @@ type apiResponse struct {
 const API = "https://dummyjson.com/users"
 
 func getUsers(cmd *cobra.Command, args []string) {
-	// Parsing flags
+	// Limit flag
 	limit, err := cmd.Flags().GetInt("limit")
 	if err != nil {
 		fmt.Printf("Error parsing limit flag: %v\n", err)
+		return
+	}
+
+	// Between flag
+	between, err := cmd.Flags().GetIntSlice("between")
+	if err != nil {
+		fmt.Printf("Error parsing between flag: %v\n", err)
+		return
+	}
+
+	if len(between)!=0 && len(between)!=2{
+		fmt.Printf("between flag accepts exactly 2 parameters")
 		return
 	}
 
@@ -67,8 +79,11 @@ func getUsers(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	// fmt.Println("Total", apiResponse.Total)
-	printTable(apiResponse.Users[:limit])
+	if len(between)!=0 {
+		printTable(apiResponse.Users[between[0]:between[1]])
+	}else{
+		printTable(apiResponse.Users[:limit])
+	}
 }
 
 func printTable(users []user) {
