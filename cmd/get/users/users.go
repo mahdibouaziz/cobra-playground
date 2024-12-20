@@ -26,6 +26,7 @@ type user struct {
 	Gender    string
 	Email     string
 	Phone     string
+	BirthDate string
 }
 
 type apiResponse struct {
@@ -57,6 +58,13 @@ func getUsers(cmd *cobra.Command, args []string) {
 		return
 	}
 
+	// Output flag
+	output, err := cmd.Flags().GetString("output")
+	if err != nil {
+		fmt.Printf("Error parsing output flag: %v\n", err)
+		return
+	}
+
 	// Make the GET request
 	resp, err := http.Get(API)
 	if err != nil {
@@ -80,22 +88,31 @@ func getUsers(cmd *cobra.Command, args []string) {
 	}
 
 	if len(between) != 0 {
-		printTable(apiResponse.Users[between[0]:between[1]])
+		printTable(apiResponse.Users[between[0]:between[1]], output)
 	} else {
-		printTable(apiResponse.Users[:limit])
+		printTable(apiResponse.Users[:limit], output)
 	}
 }
 
-func printTable(users []user) {
+func printTable(users []user, outputFormat string) {
 	// Create a new tabwriter for formatted output
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', tabwriter.TabIndent)
 
 	// Print the header
-	fmt.Fprintln(w, "ID\tFirst Name\tLast Name\tAge\tGender\tEmail")
-	// Print user data
-	for _, u := range users {
-		fmt.Fprintf(w, "%d\t%s\t%s\t%d\t%s\t%s\n", u.ID, u.FirstName, u.LastName, u.Age, u.Gender, u.Email)
+	if outputFormat == "wide" {
+		fmt.Fprintln(w, "ID\tFirst Name\tLast Name\tAge\tGender\tEmail\tPhone\tBirthDate")
+		// Print user data
+		for _, u := range users {
+			fmt.Fprintf(w, "%d\t%s\t%s\t%d\t%s\t%s\t%s\t%s\n", u.ID, u.FirstName, u.LastName, u.Age, u.Gender, u.Email, u.Phone, u.BirthDate)
+		}
+	} else {
+		fmt.Fprintln(w, "ID\tFirst Name\tLast Name\tAge\tGender\tEmail")
+		// Print user data
+		for _, u := range users {
+			fmt.Fprintf(w, "%d\t%s\t%s\t%d\t%s\t%s\n", u.ID, u.FirstName, u.LastName, u.Age, u.Gender, u.Email)
+		}
 	}
+
 	// Flush the writer to output the table
 	w.Flush()
 }
